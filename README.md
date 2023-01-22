@@ -56,3 +56,12 @@ About 8 hours, spread out over a weekend.
 
 - The try catch in [LinesController](https://github.com/DiogoAndreBotas/salsify-line-server/blob/main/src/main/java/com/diogoandrebotas/salsifylineserver/controller/LinesController.java#L23) can be removed. Exceptions can be treated using a global ExceptionHandler ([documentation reference](https://spring.io/blog/2013/11/01/exception-handling-in-spring-mvc)).
 
+## Architecture diagrams
+
+Using single instance of the web server:
+
+![Untitled-2023-01-21-1523](https://user-images.githubusercontent.com/22375850/213944782-8de214bc-1b10-450b-8968-1d70a1dbb893.png)
+
+Using several instances of web servers and a load balancer component:
+
+![image](https://user-images.githubusercontent.com/22375850/213944801-0d4868b5-e3bd-479d-b873-9c25c81df17c.png)
