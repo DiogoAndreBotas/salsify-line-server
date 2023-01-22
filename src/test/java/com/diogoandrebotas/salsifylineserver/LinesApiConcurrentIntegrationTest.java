@@ -15,12 +15,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 public class LinesApiConcurrentIntegrationTest {
+
     @Autowired
     private MockMvc mockMvc;
 
     @Test
     @Execution(ExecutionMode.CONCURRENT)
-    void success() throws Exception {
+    void threadOne() throws Exception {
         var response = mockMvc.perform(get("/lines/10000"));
 
         response
@@ -30,41 +31,41 @@ public class LinesApiConcurrentIntegrationTest {
 
     @Test
     @Execution(ExecutionMode.CONCURRENT)
-    void success2() throws Exception {
-        var response = mockMvc.perform(get("/lines/10000"));
+    void threadTwo() throws Exception {
+        var response = mockMvc.perform(get("/lines/10001"));
 
         response
             .andExpect(status().isOk())
-            .andExpect(content().string("Sed eleifend nulla vitae justo varius, eu congue nulla pellentesque."));
+            .andExpect(content().string("Cras metus leo, lobortis vitae quam at, aliquet fermentum est."));
     }
 
     @Test
     @Execution(ExecutionMode.CONCURRENT)
-    void success3() throws Exception {
-        var response = mockMvc.perform(get("/lines/10000"));
+    void threadThree() throws Exception {
+        var response = mockMvc.perform(get("/lines/10002"));
 
         response
             .andExpect(status().isOk())
-            .andExpect(content().string("Sed eleifend nulla vitae justo varius, eu congue nulla pellentesque."));
+            .andExpect(content().string("Morbi finibus, nisi et varius ullamcorper, nibh dolor tempor ex, pulvinar vulputate magna erat a tellus."));
     }
 
     @Test
     @Execution(ExecutionMode.CONCURRENT)
-    void success4() throws Exception {
-        var response = mockMvc.perform(get("/lines/10000"));
+    void threadFour() throws Exception {
+        var response = mockMvc.perform(get("/lines/10003"));
 
         response
             .andExpect(status().isOk())
-            .andExpect(content().string("Sed eleifend nulla vitae justo varius, eu congue nulla pellentesque."));
+            .andExpect(content().string("In egestas, neque et gravida consequat, sapien risus mattis purus, eget laoreet est nunc et elit."));
     }
 
     @Test
     @Execution(ExecutionMode.CONCURRENT)
-    void success5() throws Exception {
-        var response = mockMvc.perform(get("/lines/10000"));
+    void threadFive() throws Exception {
+        var response = mockMvc.perform(get("/lines/10004"));
 
         response
             .andExpect(status().isOk())
-            .andExpect(content().string("Sed eleifend nulla vitae justo varius, eu congue nulla pellentesque."));
+            .andExpect(content().string("Aenean malesuada sem lectus, sed laoreet nisi pretium sed."));
     }
 }

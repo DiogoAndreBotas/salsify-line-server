@@ -1,5 +1,6 @@
 package com.diogoandrebotas.salsifylineserver;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -18,6 +19,7 @@ public class LinesApiSequentialIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
+    @DisplayName("Requesting a line from the API returns it")
     void success() throws Exception {
         var response = mockMvc.perform(get("/lines/10000"));
 
