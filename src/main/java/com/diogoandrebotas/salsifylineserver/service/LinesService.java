@@ -10,15 +10,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class LinesService {
 
-    public String getLine(String filePath, long lineIndex) {
+    public String getLine(String filePath, String lineIndex) {
+        long lineIdx = Long.parseLong(lineIndex);
+
         try (Stream<String> lines = Files.lines(Paths.get(filePath))) {
-            return lines.skip(lineIndex).findFirst().orElseThrow();
+            return lines.skip(lineIdx).findFirst().orElseThrow();
         } catch (IOException exception) {
             throw new RuntimeException("Failed to read file");
         }
     }
 
-    public String getLine(long lineIndex) {
+    public String getLine(String lineIndex) {
         return getLine("src/main/resources/file.txt", lineIndex);
     }
 

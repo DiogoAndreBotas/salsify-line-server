@@ -3,7 +3,7 @@ package com.diogoandrebotas.salsifylineserver.controller;
 import java.util.NoSuchElementException;
 
 import com.diogoandrebotas.salsifylineserver.service.LinesService;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,12 +19,14 @@ public class LinesController {
     }
 
     @GetMapping("/lines/{lineIndex}")
-    public ResponseEntity<String> getLine(@PathVariable long lineIndex) {
+    public ResponseEntity<String> getLine(@PathVariable String lineIndex) {
         try {
             var line = linesService.getLine(lineIndex);
-            return new ResponseEntity<>(line, HttpStatusCode.valueOf(200));
+            return new ResponseEntity<>(line, HttpStatus.OK);
         } catch (NoSuchElementException exception) {
-            return new ResponseEntity<>(HttpStatusCode.valueOf(413));
+            return new ResponseEntity<>(HttpStatus.PAYLOAD_TOO_LARGE);
+        } catch (NumberFormatException exception) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 

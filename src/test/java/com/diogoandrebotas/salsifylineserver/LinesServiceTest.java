@@ -20,7 +20,7 @@ public class LinesServiceTest {
     @Test
     @DisplayName("Read first line from file with five lines")
     void readFirstLineSmallFile() {
-        String line = linesService.getLine("src/test/resources/file_with_five_lines.txt", 0);
+        String line = linesService.getLine("src/test/resources/file_with_five_lines.txt", "0");
 
         assertEquals("Once there was a big file", line);
     }
@@ -28,7 +28,7 @@ public class LinesServiceTest {
     @Test
     @DisplayName("Read last line from file with five lines")
     void readLastLineSmallFile() {
-        String line = linesService.getLine("src/test/resources/file_with_five_lines.txt", 4);
+        String line = linesService.getLine("src/test/resources/file_with_five_lines.txt", "4");
 
         assertEquals("To be used by humans", line);
     }
@@ -38,14 +38,14 @@ public class LinesServiceTest {
     void readBeyondLines() {
         assertThrows(
             NoSuchElementException.class,
-            () -> linesService.getLine("src/test/resources/file_with_five_lines.txt", 100)
+            () -> linesService.getLine("src/test/resources/file_with_five_lines.txt", "100")
         );
     }
 
     @Test
     @DisplayName("Read last line from file with ten thousand lines")
     void readLastLineBigFile() {
-        String line = linesService.getLine("src/test/resources/file_with_10k_lines.txt", 9999);
+        String line = linesService.getLine("src/test/resources/file_with_10k_lines.txt", "9999");
 
         assertEquals("In there stepped a stately Raven of the saintly days of yore;", line);
     }
@@ -55,7 +55,7 @@ public class LinesServiceTest {
     void readNonexistentFile() {
         assertThrows(
             RuntimeException.class,
-            () -> linesService.getLine("src/test/resources/limbo.txt", 10),
+            () -> linesService.getLine("src/test/resources/limbo.txt", "10"),
             "Failed to read file"
         );
     }
@@ -65,7 +65,19 @@ public class LinesServiceTest {
     void readEmptyFile() {
         assertThrows(
             NoSuchElementException.class,
-            () -> linesService.getLine("src/test/resources/empty_file.txt", 0)
+            () -> linesService.getLine("src/test/resources/empty_file.txt", "0")
+        );
+    }
+
+    @Test
+    @DisplayName("Read line that results in Long overflow")
+    void readOverflow() {
+        assertThrows(
+            NumberFormatException.class,
+            () -> linesService.getLine(
+                "src/test/resources/empty_file.txt",
+                "10000000000000000000"
+            )
         );
     }
 }
